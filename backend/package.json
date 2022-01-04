@@ -1,0 +1,16 @@
+{
+    "name": "kpi_wages",
+    "version": "1.0.0",
+    "dependencies": {
+        "cors": "^2.8.5",
+        "express": "^4.16.4",
+        "mssql": "^7.3.0",
+        "tedious": "^14.0.0"
+    },
+    "scripts": {
+        "start": "node server.js"
+    },
+    "devDependencies": {
+        "typescript": "^4.5.4"
+    }
+}

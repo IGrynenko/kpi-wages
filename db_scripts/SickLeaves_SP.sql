@@ -1,0 +1,15 @@
+CREATE PROCEDURE SelectSickLeaves @DATE DATE
+AS
+SELECT e.Id, e.LastName, e.FirstName, e.MiddleName, s.StartDate, s.EndDate,
+	CASE 
+		WHEN DATEPART(MONTH, s.StartDate) < DATEPART(MONTH, @DATE)
+			THEN DATEDIFF(DAY, CAST(CONCAT(DATEPART(YEAR,s.StartDate), '-', DATEPART(MONTH, @DATE), '-01') AS DATE), s.EndDate) + 1
+		WHEN DATEPART(MONTH, s.EndDate) > DATEPART(MONTH, @DATE)
+			THEN DATEDIFF(DAY, s.StartDate, EOMONTH(@DATE)) + 1
+		ELSE DATEDIFF(DAY, StartDate, EndDate) + 1
+	END AS [Days]
+FROM Employees AS e
+JOIN SickLeaves AS s
+	ON s.EmployeeId = e.Id
+WHERE DATEPART(YEAR, s.StartDate) = DATEPART(YEAR, @DATE) AND DATEPART(MONTH, s.StartDate) = DATEPART(MONTH, @DATE)
+	OR DATEPART(YEAR, s.EndDate) = DATEPART(YEAR, @DATE) AND DATEPART(MONTH, s.EndDate) = DATEPART(MONTH, @DATE)
