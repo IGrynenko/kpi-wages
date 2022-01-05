@@ -8,6 +8,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { formatedDate } from "../../shared/dateHelper";
 import Spinner from '../../shared/spinner';
+import EditIcon from '@mui/icons-material/Edit';
 
 const Wages = () => {
 
@@ -56,7 +57,8 @@ const Wages = () => {
                             <TableCell align="right">Salary</TableCell>
                             <TableCell align="right">DateOfBirth</TableCell>
                             <TableCell align="right">MaritalStatus</TableCell>
-                            <TableCell align="right">Children</TableCell>								
+                            <TableCell align="right">Children</TableCell>
+                            <TableCell align="right">Edit</TableCell>	
                         </TableRow>
                     </TableHead>
                     {!loading && 
@@ -76,6 +78,7 @@ const Wages = () => {
                                 <TableCell align="right">{formatedDate(row.DateOfBirth)}</TableCell>
                                 <TableCell align="right">{row.MaritalStatus}</TableCell>
                                 <TableCell align="right">{row.Children}</TableCell>
+                                <TableCell align="right"><EditIcon /></TableCell>
                             </TableRow>
                         ))}
                         </TableBody>
