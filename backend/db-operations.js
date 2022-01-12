@@ -15,6 +15,38 @@ async function getSalariesByMonth() {
     }
 }
 
+async function getEmployee(id) {
+
+    try {
+        const pool = await sql.connect(config);
+        const employee = await pool.request()
+            .input('id', sql.UniqueIdentifier(), id)
+            .query('select * from Employees where Id = @id and IsActive = 1');
+        
+        return employee.recordsets;
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+
+async function removeEmployee(id) {
+
+    try {
+        const pool = await sql.connect(config);
+        const employee = await pool.request()
+            .input('id', sql.UniqueIdentifier(), id)
+            .query('update Employees set IsActive = 0 where Id = @id');
+        
+        return employee.rowsAffected[0] ? true : false;
+
+    }
+    catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
 async function getSickLeaves(date) {
 
     try {
@@ -48,5 +80,7 @@ async function getOverallTransfers(date) {
 module.exports = {
     getSalariesByMonth: getSalariesByMonth,
     getSickLeaves: getSickLeaves,
-    getOverallTransfers: getOverallTransfers
+    getOverallTransfers: getOverallTransfers,
+    getEmployee: getEmployee,
+    removeEmployee: removeEmployee
 }

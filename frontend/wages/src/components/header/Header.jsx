@@ -7,7 +7,7 @@ const Header = () => {
                 <Menu />
             </div>
             <div className="top-title">
-                KPI WAGES SYS
+                <span>KPI WAGES SYS</span>
             </div>
         </div>
     );

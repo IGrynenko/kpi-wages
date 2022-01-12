@@ -4,7 +4,6 @@ const cors = require('cors');
 const app = express();
 const router = express.Router();
 const dbOperations = require('./db-operations');
-
 const jsonParser = bodyParser.json()
 
 //* update
@@ -41,6 +40,32 @@ router.post('/overall-transfers', jsonParser, async (req, res) => {
     let records = await dbOperations.getOverallTransfers(date);
 
     res.send(records[0]);
+});
+
+router.delete('/employee', async (req, res) => {
+
+    const id = req.query.id;
+
+    if (!id) {
+        res.status(400)
+            .json({ status: 400, message: "No valid id"})
+    }
+
+    const employees = await dbOperations.getEmployee(id);
+
+    if (employees.length === 0) {
+        res.status(404)
+            .json({ status: 400, message: "Such id doesn't exist"})
+    }
+
+    const result = await dbOperations.removeEmployee(id);
+
+    if (!result) {
+        res.status(500);
+    }
+
+    res.status(200)
+            .json({ status: 200, message: `${id} was deleted`})
 });
 
 //! port in settings

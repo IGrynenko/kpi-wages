@@ -42,9 +42,13 @@ code {
   .top-title {
     width: 100%;
     margin: auto;
-    text-align: center;
+    text-align: right;
     font-weight: 600;
     color: #fff;
+
+    span {
+      padding-right: 50%;
+    }
   }
 
   button {
@@ -68,6 +72,11 @@ code {
     gap: 20px;
     padding-top: 10px;
   }
+
+  svg:hover {
+    color: rgb(131, 131, 131);
+    cursor: pointer;
+  }
 }
 
 .spinner {
@@ -78,9 +87,24 @@ code {
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: #000;
+  opacity: 0.3;
 
   .MuiCircularProgress-root {
     width: 60px!important;
     height: 60px!important;
+  }
+}
+
+.form-content {
+  margin: 20px;
+
+  .edit-modal-form {
+    display: flex;
+    flex-direction: column;
+
+    > div {
+      padding-bottom: 10px;
+    }
   }
 }

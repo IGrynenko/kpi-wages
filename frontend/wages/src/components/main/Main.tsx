@@ -6,7 +6,7 @@ import Wages from '../wages/Wages';
 
 const Main = () => {
     return (
-        <div>
+        <>
             <BrowserRouter>
             <Header />
                 <Routes>
@@ -17,7 +17,7 @@ const Main = () => {
                     <Route path="overall-transfers" element={<OverallTransfers />}></Route>
                 </Routes>
             </BrowserRouter>
-        </div>        
+        </>        
     );
 };
 

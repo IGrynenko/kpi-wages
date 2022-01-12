@@ -101,8 +101,8 @@ const SickLeaves = () => {
                         <TableBody>
                         {rows.map((row, index) => (
                             <TableRow
-                            key={row.Id}
-                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                key={row.Id}
+                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 <TableCell component="th" scope="row">{index + 1}</TableCell>
                                 <TableCell align="right">{row.LastName}</TableCell>
