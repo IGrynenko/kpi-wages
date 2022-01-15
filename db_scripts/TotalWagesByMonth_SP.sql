@@ -35,8 +35,9 @@ FROM (
 		ON sl.EmployeeId = e.Id
 	JOIN Salaries AS sa
 		ON sa.EmployeeId = e.Id
-	WHERE DATEPART(YEAR, sl.StartDate) = DATEPART(YEAR, @DATE) AND DATEPART(MONTH, sl.StartDate) = DATEPART(MONTH, @DATE)
-		OR DATEPART(YEAR, sl.EndDate) = DATEPART(YEAR, @DATE) AND DATEPART(MONTH, sl.EndDate) = DATEPART(MONTH, @DATE)
+	WHERE (DATEPART(YEAR, sl.StartDate) = DATEPART(YEAR, @DATE) AND DATEPART(MONTH, sl.StartDate) = DATEPART(MONTH, @DATE)
+		OR DATEPART(YEAR, sl.EndDate) = DATEPART(YEAR, @DATE) AND DATEPART(MONTH, sl.EndDate) = DATEPART(MONTH, @DATE))
+			AND e.IsActive = 1
 ) AS SickLeavesMonth
 
 SELECT Id, LastName, FirstName, MiddleName, CalculatedWage * (1 - @TAXES) AS Amount FROM @TEMP

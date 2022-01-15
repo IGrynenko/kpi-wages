@@ -93,16 +93,14 @@ const OverallTransfers = () => {
                         <TableRow>
                             <TableCell align="center">Total Wages</TableCell>
                             <TableCell align="center">Total Allowance</TableCell>
-                            <TableCell align="center">Total Bonuses</TableCell>						
+                            <TableCell align="center">Total Bonuses</TableCell>
                         </TableRow>
                     </TableHead>
                     {!loading && 
                         <TableBody>
                         {rows.map((row, index) => (
-                            <TableRow
-                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                            >
-                                <TableCell align="center">{row.TotalWages}</TableCell>
+                            <TableRow x={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                <TableCell align="center">{row.Wages}</TableCell>
                                 <TableCell align="center">{row.TotalAllowance ?? _dash}</TableCell>
                                 <TableCell align="center">{row.TotalBonuses ?? _dash}</TableCell>
                             </TableRow>

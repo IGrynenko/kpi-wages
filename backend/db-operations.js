@@ -15,6 +15,35 @@ async function getEmployees() {
     }
 }
 
+async function updateEmployee(emp) {
+
+    const pool = await sql.connect(config);
+    const positionsQuery = await pool.request()
+        .query('select * from Position');
+    const msQuery = await pool.request()
+        .query('select * from MaritalStatus');
+    
+    if (positionsQuery.recordsets && msQuery.recordsets) {
+
+        const positions = positionsQuery.recordsets[0];
+        const position = positions.find(p => p.Title === emp.Position)
+
+        const marStatuses = msQuery.recordsets[0];
+        const ms = marStatuses.find(p => p.Title === emp.MaritalStatus)
+
+        await pool.request()
+            .input('pf', sql.Int, emp.PersonalFile)
+            .input('LastName', sql.NVarChar, emp.LastName)
+            .input('FirstName', sql.NVarChar, emp.FirstName)
+            .input('MiddleName', sql.NVarChar, emp.MiddleName)
+            .input('Position', sql.UniqueIdentifier, position.Id)
+            .input('DateOfBirth', sql.Date, emp.DateOfBirth)
+            .input('MaritalStatus', sql, ms.Id)
+            .input('Children', sql.Int, emp.Children)
+            .query('update Employee');
+    }
+}
+
 async function getSalariesByMonth(date) {
 
     try {

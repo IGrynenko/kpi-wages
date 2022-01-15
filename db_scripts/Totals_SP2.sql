@@ -26,8 +26,9 @@ FROM (
 		ON sl.EmployeeId = e.Id
 	JOIN Salaries AS sa
 		ON sa.EmployeeId = e.Id
-	WHERE DATEPART(YEAR, sl.StartDate) = DATEPART(YEAR, @DATE) AND DATEPART(MONTH, sl.StartDate) = DATEPART(MONTH, @DATE)
-		OR DATEPART(YEAR, sl.EndDate) = DATEPART(YEAR, @DATE) AND DATEPART(MONTH, sl.EndDate) = DATEPART(MONTH, @DATE)
+	WHERE (DATEPART(YEAR, sl.StartDate) = DATEPART(YEAR, @DATE) AND DATEPART(MONTH, sl.StartDate) = DATEPART(MONTH, @DATE)
+		OR DATEPART(YEAR, sl.EndDate) = DATEPART(YEAR, @DATE) AND DATEPART(MONTH, sl.EndDate) = DATEPART(MONTH, @DATE))
+			AND e.IsActive = 1
 ) AS SickLeavesMonth
 
 SELECT * FROM (
@@ -38,6 +39,7 @@ SELECT * FROM (
 		JOIN Salaries AS sa
 			ON sa.EmployeeId = e.Id
 		WHERE e.Id NOT IN (SELECT Id FROM @TEMP)
+			AND e.IsActive = 1
 	) AS Wages
 ) AS w
 CROSS JOIN

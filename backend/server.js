@@ -11,7 +11,7 @@ app.use(cors());
 
 app.use('/api', router);
 
-router.use('/employees', async (req, res) => {
+router.get('/employees', async (req, res) => {
 
     const records = await dbOperations.getEmployees();
 
@@ -38,7 +38,6 @@ router.post('/wages', jsonParser, async (req, res) => {
 
     if (!req.body)
         return res.sendStatus(400);
-    console.log(req.body);
 
     const date = req.body.date;
 
@@ -47,7 +46,6 @@ router.post('/wages', jsonParser, async (req, res) => {
             .json({ status: 400, message: "Date is requited"})
 
     const records = await dbOperations.getSalariesByMonth(date);
-    console.log(records);
     
     res.send(records[0]);
 });
