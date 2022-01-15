@@ -11,9 +11,9 @@ app.use(cors());
 
 app.use('/api', router);
 
-router.use('/wages', async (req, res) => {
+router.use('/employees', async (req, res) => {
 
-    let records = await dbOperations.getSalariesByMonth();
+    const records = await dbOperations.getEmployees();
 
     res.send(records[0]);
 });
@@ -25,8 +25,30 @@ router.post('/sick-leaves', jsonParser, async (req, res) => {
 
     const date = req.body.date;
 
-    let records = await dbOperations.getSickLeaves(date);
+    if (!date)
+        res.status(400)
+            .json({ status: 400, message: "Date is requited"})
 
+    const records = await dbOperations.getSickLeaves(date);
+
+    res.send(records[0]);
+});
+
+router.post('/wages', jsonParser, async (req, res) => {
+
+    if (!req.body)
+        return res.sendStatus(400);
+    console.log(req.body);
+
+    const date = req.body.date;
+
+    if (!date)
+        res.status(400)
+            .json({ status: 400, message: "Date is requited"})
+
+    const records = await dbOperations.getSalariesByMonth(date);
+    console.log(records);
+    
     res.send(records[0]);
 });
 
@@ -37,7 +59,11 @@ router.post('/overall-transfers', jsonParser, async (req, res) => {
 
     const date = req.body.date;
 
-    let records = await dbOperations.getOverallTransfers(date);
+    if (!date)
+        res.status(400)
+            .json({ status: 400, message: "Date is requited"})
+
+    const records = await dbOperations.getOverallTransfers(date);
 
     res.send(records[0]);
 });

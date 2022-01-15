@@ -6,11 +6,19 @@ DECLARE @TAXES FLOAT = 0.2
 
 DECLARE @TEMP TABLE (
     Id uniqueidentifier,
+	LastName NVARCHAR(100),
+	FirstName NVARCHAR(100),
+	MiddleName NVARCHAR(100),
 	CalculatedWage DECIMAL(38,15)
 )
 
-INSERT INTO @TEMP (Id, CalculatedWage)
-SELECT SickLeavesMonth.Id AS Id, ((SickLeavesMonth.Amount / @MDAYS * (@MDAYS - SickLeavesMonth.Days)) + (SickLeavesMonth.Amount / @MDAYS * SickLeavesMonth.Days * 0.5)) AS CalculatedWage
+INSERT INTO @TEMP (Id, LastName, FirstName, MiddleName, CalculatedWage)
+SELECT
+	SickLeavesMonth.Id AS Id,
+	SickLeavesMonth.LastName AS LastName,
+	SickLeavesMonth.FirstName AS FirstName,
+	SickLeavesMonth.MiddleName AS MiddleName,
+	((SickLeavesMonth.Amount / @MDAYS * (@MDAYS - SickLeavesMonth.Days)) + (SickLeavesMonth.Amount / @MDAYS * SickLeavesMonth.Days * 0.5)) AS CalculatedWage
 FROM (
 	SELECT e.Id, e.LastName, e.FirstName, e.MiddleName, sl.StartDate, sl.EndDate,
 		CASE 
@@ -31,9 +39,9 @@ FROM (
 		OR DATEPART(YEAR, sl.EndDate) = DATEPART(YEAR, @DATE) AND DATEPART(MONTH, sl.EndDate) = DATEPART(MONTH, @DATE)
 ) AS SickLeavesMonth
 
-SELECT Id, CalculatedWage * (1 - @TAXES) FROM @TEMP
+SELECT Id, LastName, FirstName, MiddleName, CalculatedWage * (1 - @TAXES) AS Amount FROM @TEMP
 UNION
-SELECT e.Id, sa.Amount * (1 - @TAXES) FROM Employees AS e
+SELECT e.Id, e.LastName, e.FirstName, e.MiddleName, sa.Amount * (1 - @TAXES) AS Amount FROM Employees AS e
 JOIN Salaries AS sa
 	ON sa.EmployeeId = e.Id
 WHERE e.Id NOT IN (SELECT Id FROM @TEMP)

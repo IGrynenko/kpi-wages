@@ -1,12 +1,27 @@
 const config = require('./db-config');
 const sql = require("mssql");
 
-async function getSalariesByMonth() {
+async function getEmployees() {
+
+    try {
+        const pool = await sql.connect(config);
+        const employees = await pool.request()
+            .query('select * from View_Employees_Info');
+        
+        return employees.recordsets;
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+
+async function getSalariesByMonth(date) {
 
     try {
         const pool = await sql.connect(config);
         const wages = await pool.request()
-            .query('select * from View_Employees_Info');
+            .input('date', sql.Date, date)
+            .execute('TotalWagesByMonth');
         
         return wages.recordsets;
     }
@@ -68,7 +83,7 @@ async function getOverallTransfers(date) {
         const pool = await sql.connect(config);
         const totals = await pool.request()
             .input('date', sql.Date, date)
-            .execute('SelectTotals');
+            .execute('SelectTotalsComplete');
 
         return totals.recordsets;
     }
@@ -82,5 +97,6 @@ module.exports = {
     getSickLeaves: getSickLeaves,
     getOverallTransfers: getOverallTransfers,
     getEmployee: getEmployee,
+    getEmployees: getEmployees,
     removeEmployee: removeEmployee
 }

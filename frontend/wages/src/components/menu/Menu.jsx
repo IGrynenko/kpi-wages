@@ -7,6 +7,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import MoneyIcon from '@mui/icons-material/Money';
 import MasksIcon from '@mui/icons-material/Masks';
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import FunctionsIcon from '@mui/icons-material/Functions';
 import { Link } from "react-router-dom";
 
@@ -32,6 +33,16 @@ const Menu = () => {
                 onClose={toggleDrawer(false)}
             >
                 <List>
+                    <Link to="/employees">
+                        <ListItem disablePadding>               
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    <PeopleAltIcon />
+                                </ListItemIcon>
+                            <ListItemText primary="Employees" />
+                            </ListItemButton>
+                        </ListItem>
+                    </Link>
                     <Link to="/wages">
                         <ListItem disablePadding>               
                             <ListItemButton>
